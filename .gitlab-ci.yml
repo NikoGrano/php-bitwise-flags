@@ -1,0 +1,46 @@
+stages:
+  - test
+
+variables:
+  GET_SOURCES_ATTEMPTS: "2"
+  DEFAULT_COMPOSER_FLAGS: "--no-interaction --no-ansi --no-progress --no-suggest"
+
+cache:
+  paths:
+    - vendor/
+
+before_script:
+  - apt-get update > /dev/null
+  - apt-get dist-upgrade -yqq > /dev/null
+  - apt-get install git zip wget curl gnupg build-essential autoconf automake libmcrypt-dev libxslt-dev libpcre3-dev --no-install-recommends -yqq > /dev/null
+  - pecl install xdebug-2.7.0beta1 > /dev/null
+  - docker-php-ext-enable xdebug > /dev/null
+  - scripts/composer.sh
+  - composer install $DEFAULT_COMPOSER_FLAGS -q > /dev/null
+  - composer global show hirak/prestissimo -q || composer global require $DEFAULT_COMPOSER_FLAGS hirak/prestissimo -q
+
+.phpunit:
+  stage: test
+  script:
+    - composer test
+
+php:72:
+  image: php:7.2
+  extends: .phpunit
+
+php:73:
+  image: php:7.3
+  extends: .phpunit
+
+cs:72:
+  image: php:7.2
+  stage: test
+  script:
+    - composer cs:validate
+
+cs:73:
+  image: php:7.3
+  stage: test
+  script:
+    - composer cs:validate
+

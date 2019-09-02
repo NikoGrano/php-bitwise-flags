@@ -59,11 +59,10 @@ $entity = new User();
 $entity->addFlag(User::BANNED | User::ADMIN | User::ACTIVATED);
 
 var_dump($entity->getFlagNames()); // [Banned, Admin, Activated]
-var_dump($entity->getFlagNames()); // // [Banned, Admin, Activated]
 var_dump($entity->getFlagNames(User::ACTIVATED | User::BANNED)); // [Activated, Banned]
 
 /** Overriding automatically defined flag names. */
-final class UserWCustomNames extends BinaryFlags
+final class UserWCustomNames extends Flags
 {
     public const BANNED = Bits::BIT_1;
     public const ADMIN = Bits::BIT_2;

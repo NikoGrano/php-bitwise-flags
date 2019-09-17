@@ -32,6 +32,10 @@ php:73:
   image: php:7.3
   extends: .phpunit
 
+php:74:
+  image: php:7.4
+  extends: .phpunit
+
 cs:72:
   image: php:7.2
   stage: test
@@ -44,3 +48,8 @@ cs:73:
   script:
     - composer cs:validate
 
+cs:74:
+  image: php:7.4
+  stage: test
+  script:
+    - composer cs:validate

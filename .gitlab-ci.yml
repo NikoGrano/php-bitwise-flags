@@ -33,7 +33,6 @@ php:73:
   extends: .phpunit
 
 php:74:
-  allow_failure: true
   image: php:7.4
   extends: .phpunit
 
@@ -50,7 +49,6 @@ cs:73:
     - composer cs:validate
 
 cs:74:
-  allow_failure: true
   image: php:7.4
   stage: test
   script:
